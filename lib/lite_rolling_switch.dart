@@ -1,8 +1,9 @@
 library lite_rolling_switch;
 
-import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'dart:math';
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 
 /// Customable and attractive Switch button.
 /// Currently, you can't change the widget
@@ -21,21 +22,21 @@ import 'dart:math';
 /// don't forget to set them.
 ///
 class LiteRollingSwitch extends StatefulWidget {
-  @required
+ 
   final bool value;
-  @required
+
   final Function(bool) onChanged;
   final String textOff;
   final String textOn;
   final Color colorOn;
   final Color colorOff;
-  final double textSize;
-  final Duration animationDuration;
-  final IconData iconOn;
-  final IconData iconOff;
-  final Function onTap;
-  final Function onDoubleTap;
-  final Function onSwipe;
+  final double? textSize;
+  final Duration? animationDuration;
+  final IconData? iconOn;
+  final IconData? iconOff;
+  final Function()? onTap;
+  final Function()? onDoubleTap;
+  final Function()? onSwipe;
 
   LiteRollingSwitch(
       {this.value = false,
@@ -50,7 +51,7 @@ class LiteRollingSwitch extends StatefulWidget {
       this.onTap,
       this.onDoubleTap,
       this.onSwipe,
-      this.onChanged});
+      required this.onChanged});
 
   @override
   _RollingSwitchState createState() => _RollingSwitchState();
@@ -58,11 +59,11 @@ class LiteRollingSwitch extends StatefulWidget {
 
 class _RollingSwitchState extends State<LiteRollingSwitch>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
-  Animation<double> animation;
+  late AnimationController animationController;
+  late Animation<double> animation;
   double value = 0.0;
 
-  bool turnState;
+  late bool turnState;
 
   @override
   void dispose() {
@@ -91,20 +92,21 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
 
   @override
   Widget build(BuildContext context) {
-    Color transitionColor = Color.lerp(widget.colorOff, widget.colorOn, value);
+
+    Color? transitionColor = Color.lerp(widget.colorOff, widget.colorOn, value);
 
     return GestureDetector(
       onDoubleTap: () {
         _action();
-        if (widget.onDoubleTap != null) widget.onDoubleTap();
+        if (widget.onDoubleTap != null) widget.onDoubleTap!();
       },
       onTap: () {
         _action();
-        if (widget.onTap != null) widget.onTap();
+        if (widget.onTap != null) widget.onTap!();
       },
       onPanEnd: (details) {
         _action();
-        if (widget.onSwipe != null) widget.onSwipe();
+        if (widget.onSwipe != null) widget.onSwipe!();
         //widget.onSwipe();
       },
       child: Container(
@@ -153,7 +155,7 @@ class _RollingSwitchState extends State<LiteRollingSwitch>
             Transform.translate(
               offset: Offset(80 * value, 0),
               child: Transform.rotate(
-                angle: lerpDouble(0, 2 * pi, value),
+                angle: lerpDouble(0, 2 * pi, value)!,
                 child: Container(
                   height: 40,
                   width: 40,
